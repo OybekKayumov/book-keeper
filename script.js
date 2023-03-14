@@ -38,16 +38,28 @@ function validate(nameValue, urlValue) {
   return true;
 }
 
+// fetch from local storage
+function fetchBookmarks() {
+  if (localStorage.getItem('bookmarks')) {
+    bookmarks = JSON.parse(localStorage.getItem('bookmarks'))
+  } else {
+    bookmarks = [
+      {
+        name: 'Modern Design',
+        url: 'https://modern.design'
+      },
+    ];
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  }
+}
+
 // handle data from form
 function storeBookmark(e) {
-  e.preventDefault();
-  console.log(': ', e);
+  e.preventDefault();  
   const nameValue = websiteNameEl.value;
   let urlValue = websiteUrlEl.value;
   if (!urlValue.includes('http://', 'https://')) {
     urlValue = `https://${urlValue}`
-  } else {
-    
   }
   
   if(!validate(nameValue, urlValue)) {
@@ -59,12 +71,15 @@ function storeBookmark(e) {
     url: urlValue,
   };
 
-  bookmarks.push(bookmark);
-  console.log(': ', bookmarks);
+  bookmarks.push(bookmark);  
   localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  fetchBookmarks();
   bookmarkForm.reset();
   websiteNameEl.focus();
 }
 
 // event listener
 bookmarkForm.addEventListener('submit', storeBookmark)
+
+// on load get data from local storage
+fetchBookmarks();
