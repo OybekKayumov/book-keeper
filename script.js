@@ -19,3 +19,20 @@ modalClose.addEventListener('click', () => modal.classList.remove('show-modal'))
 window.addEventListener('click', (e) => (
   e.target === modal ? modal.classList.remove('show-modal') : false
 ))
+
+// handle data from form
+function storeBookmark(e) {
+  e.preventDefault();
+  console.log(': ', e);
+  const nameValue = websiteNameEl.value;
+  let urlValue = websiteUrlEl.value;
+  if (!urlValue.includes('http://', 'https://')) {
+    urlValue = `https://${urlValue}`
+  } else {
+    
+  }
+  console.log(': ', nameValue, urlValue);
+}
+
+// event listener
+bookmarkForm.addEventListener('submit', storeBookmark)
