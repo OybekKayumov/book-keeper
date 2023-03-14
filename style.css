@@ -21,7 +21,7 @@ h1 {
   color: white;
   padding: 20px;
   background: rgba(0, 0, 0, 0.5);
-  border: var(--border-radius);
+  border-radius: var(--border-radius);
   cursor: pointer;
   text-align: center;
   text-transform: uppercase;
@@ -51,7 +51,7 @@ h1:hover {
 }
 
 .item:hover {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 a {
@@ -91,7 +91,7 @@ a:active{
 
 /* modal */
 .modal-container {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.6);
   display: none;
   position: fixed;
   top: 0;

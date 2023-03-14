@@ -18,9 +18,7 @@ function showModal() {
 modalShow.addEventListener('click', showModal);
 modalClose.addEventListener('click', () => modal.classList.remove('show-modal'));
 
-window.addEventListener('click', (e) => (
-  e.target === modal ? modal.classList.remove('show-modal') : false
-))
+window.addEventListener('click', (e) => (e.target === modal ? modal.classList.remove('show-modal') : false));
 
 // validate form
 function validate(nameValue, urlValue) {
@@ -44,22 +42,22 @@ function buildBookmarks() {
   bookmarksContainer.textContent = '';
 
   // build items
-  bookmarks.forEach((bookmark, ind) => {
+  bookmarks.forEach((bookmark) => {
     const { name, url } = bookmark;
 
     const item = document.createElement('div');
     item.classList.add('item');
 
     const closeIcon = document.createElement('i');
-    closeIcon.classList.add('fas', 'fa-items');
+    closeIcon.classList.add('fas', 'fa-times');
     closeIcon.setAttribute('title', 'Delete Bookmark');
-    closeIcon.setAttribute('onclick', `deleteBookmark(${url})`);
+    closeIcon.setAttribute('onclick', `deleteBookmark('${url}')`);
 
     const linkInfo = document.createElement('div');
     linkInfo.classList.add('name');
 
     const favicon = document.createElement('img');
-    favicon.setAttribute('src', ``);
+    favicon.setAttribute('src', `https://s2.googleusercontent.com/s2/favicons?domain=${url}`);
     favicon.setAttribute('alt', 'Favicon');
 
     const link = document.createElement('a');
@@ -68,7 +66,7 @@ function buildBookmarks() {
     link.textContent = name;
 
     linkInfo.append(favicon, link);
-    item.append(closeIcon, link);
+    item.append(closeIcon, linkInfo);
 
     bookmarksContainer.appendChild(item);
   });
@@ -77,12 +75,12 @@ function buildBookmarks() {
 // fetch from local storage
 function fetchBookmarks() {
   if (localStorage.getItem('bookmarks')) {
-    bookmarks = JSON.parse(localStorage.getItem('bookmarks'))
+    bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
   } else {
     bookmarks = [
       {
         name: 'Modern Design',
-        url: 'https://modern.design'
+        url: 'http://modern.design',
       },
     ];
     localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
@@ -93,11 +91,11 @@ function fetchBookmarks() {
 
 // delete bookmark
 function deleteBookmark(url) {
-  bookmarks.forEach((bookmark, ind) => {
+  bookmarks.forEach((bookmark, i) => {
     if (bookmark.url === url) {
       bookmarks.splice(i, 1);
     }
-  })
+  });
 
   localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
   fetchBookmarks();
@@ -108,12 +106,12 @@ function storeBookmark(e) {
   e.preventDefault();  
   const nameValue = websiteNameEl.value;
   let urlValue = websiteUrlEl.value;
-  if (!urlValue.includes('http://', 'https://')) {
-    urlValue = `https://${urlValue}`
+  if (!urlValue.includes('https://') && !urlValue.includes('http://')) {
+    urlValue = `https://${urlValue}`;
   }
   
-  if(!validate(nameValue, urlValue)) {
-    return false
+  if (!validate(nameValue, urlValue)) {
+    return false;
   }
 
   const bookmark = {
@@ -129,7 +127,7 @@ function storeBookmark(e) {
 }
 
 // event listener
-bookmarkForm.addEventListener('submit', storeBookmark)
+bookmarkForm.addEventListener('submit', storeBookmark);
 
 // on load get data from local storage
 fetchBookmarks();
